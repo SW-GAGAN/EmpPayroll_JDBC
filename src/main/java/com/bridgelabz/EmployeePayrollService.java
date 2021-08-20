@@ -5,8 +5,8 @@ import java.util.List;
 
 public class EmployeePayrollService {
     public EmployeePayrollService() {
-
     }
+
     public enum IOService{CONSOLE_IO,DB_IO,REST_IO,FILE_IO}
     public List<EmployeePayrollData> employeePayrollList;
 
@@ -28,5 +28,16 @@ public class EmployeePayrollService {
             this.employeePayrollList= new EmployeePayrollDBService().readData();
         }
         return employeePayrollList;
+    }
+
+    /*This method used to update the salary of employees
+    @param takes parameters name and salary passed to method updateEmployessDataUsingStatement
+    @return boolean value true if updated successfully else false
+    */
+
+    public boolean updateSalary(String name, double salary) {
+        EmployeePayrollDBService employeePayrollDBService=new EmployeePayrollDBService();
+        boolean result =employeePayrollDBService.updateEmployeeDataUsingStatement(name,salary);
+        return result;
     }
 }

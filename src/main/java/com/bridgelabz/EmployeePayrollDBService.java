@@ -37,8 +37,8 @@ public class EmployeePayrollDBService {
             while (resultSet.next()){
                 int id=resultSet.getInt("id");
                 String name=resultSet.getString("name");
-                double salary=resultSet.getDouble("basic_pay");
-                LocalDate startDate=resultSet.getDate("start").toLocalDate();
+                double salary=resultSet.getDouble("salary");
+                LocalDate startDate=resultSet.getDate("start_date").toLocalDate();
                 employeePayrollDataList.add(new EmployeePayrollData(id,name,salary,startDate));
             }
             resultSet.close();
@@ -48,5 +48,24 @@ public class EmployeePayrollDBService {
             throwable.printStackTrace();
         }
         return employeePayrollDataList;
+    }
+
+    /*This method used to update the salary of employees
+    @param takes parameters name and salary
+    @return boolean value true if updated successfully else false
+     */
+    public boolean updateEmployeeDataUsingStatement(String name, Double salary) {
+        //alternate way String sql1 = " update employee_payroll set salary ='"+salary+"' where name ='"+name+"'";
+        String sql = String.format("update employee_payroll set salary = %.2f where name = '%s';", salary, name);
+        try (Connection connection = this.getConnection("localhost","payroll_service",
+                "root","Gagan@2107")) {
+            Statement statement = connection.createStatement();
+            int result= statement.executeUpdate(sql);
+            if (result==1)
+                return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }
