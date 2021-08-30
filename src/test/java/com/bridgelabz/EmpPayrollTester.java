@@ -34,5 +34,13 @@ public class EmpPayrollTester {
         Assertions.assertEquals(result, true);
     }
 
+    @Test
+    public void givenDateRange_WhenRetrived_shouldreturnParticlarDataofEmployess() throws SQLException {
+        employeePayrollService = new EmployeePayrollService();
+        LocalDate startDate=LocalDate.of(2009,12,12);
+        LocalDate endDate=LocalDate.of(2019,12,12);
+        employeePayrollList = employeePayrollService.getData(startDate ,endDate);
+        Assertions.assertEquals(2,employeePayrollList.size());
+    }
 
 }

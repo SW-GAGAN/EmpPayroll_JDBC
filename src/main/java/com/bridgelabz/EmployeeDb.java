@@ -56,7 +56,7 @@ public class EmployeeDb {
     private void prepareStatementForEmployeeData() {
         try {
             Connection connection = this.getConnection("localhost","payroll_service",
-                    "root","1234");
+                    "root","Gagan@2107");
             String sql = "SELECT * FROM employee_payroll WHERE name =?";
             employeePayrollDataStatement = connection.prepareStatement(sql);
         } catch (SQLException e) {
@@ -68,7 +68,7 @@ public class EmployeeDb {
         String sql=String.format("Select * from employee_payroll where start_date between '%s' and '%s'",startDate,endDate);
         List<EmployeePayrollData> employeePayrollDataList=new ArrayList<>();
         try(Connection connection = this.getConnection("localhost","payroll_service",
-                "root","1234");) {
+                "root","Gagan@2107");) {
             Statement statement = connection.createStatement();
             ResultSet resultSet= statement.executeQuery(sql);
             while (resultSet.next()){
