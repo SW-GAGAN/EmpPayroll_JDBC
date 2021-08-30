@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.List;
 
 public class EmpPayrollTester {
@@ -21,9 +22,17 @@ public class EmpPayrollTester {
     public void givenEmployeePayrollUpdateDetails_whenUpdated_shouldMatch() throws SQLException {
         employeePayrollService = new EmployeePayrollService();
         employeePayrollList = employeePayrollService.readEmployeePayrollData(EmployeePayrollService.IOService.DB_IO);
-        boolean result=employeePayrollService.updateSalary("marlin",32.0);
+        boolean result = employeePayrollService.updateSalary("marlin", 32.0);
         Assertions.assertTrue(result);
-
     }
+
+    @Test
+    public void givenEmployeeName_WhenRetrieved_shouldReturnParticularData() throws SQLException {
+        employeePayrollService = new EmployeePayrollService();
+        employeePayrollList = employeePayrollService.readEmployeePayrollData(EmployeePayrollService.IOService.DB_IO);
+        boolean result = employeePayrollService.checkEmployeePayrollInSyncWithDB("marlin");
+        Assertions.assertEquals(result, true);
+    }
+
 
 }
