@@ -1,5 +1,6 @@
 package com.bridgelabz;
 
+import java.io.Reader;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -173,6 +174,37 @@ public class EmployeePayrollDBService {
             throwable.printStackTrace();
         }
         return employeePayrollDataList;
+    }
+
+    /*This method used to get The AggregateData employeeTable
+     @return list of employes Agrreagate data
+     */
+
+    public List<EmployeePayrollData> employeePayrollAggregate() throws SQLException {
+        String sql = String.format("Select sum(salary) sum,avg(salary) average,min(salary) min" +
+                ",max(salary) max,count(*) count,gender from employee_payroll group by gender");
+        List<EmployeePayrollData> employeePayrollDatalist = new ArrayList<>();
+        try (Connection connection = this.getConnection("localhost", "payroll_service",
+                "root", "Gagan@2107");) {
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(sql);
+            while (resultSet.next()) {
+                double sum = resultSet.getDouble("sum");
+                double average = resultSet.getDouble("average");
+                double min = resultSet.getDouble("min");
+                double max = resultSet.getDouble("max");
+                int count = resultSet.getInt("count");
+                String resultGender = resultSet.getString("gender");
+                char gender = resultGender.charAt(0);
+                employeePayrollDatalist.add(new EmployeePayrollData(sum, average, min, max, count, gender));
+            }
+            resultSet.close();
+            statement.close();
+            connection.close();
+        } catch (SQLException throwable) {
+            throwable.printStackTrace();
+        }
+        return employeePayrollDatalist;
     }
 
 
